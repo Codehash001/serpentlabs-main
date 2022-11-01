@@ -29,6 +29,13 @@ export const getNumberMinted = async () => {
   return NumberMinted
 }
 
+export const getValidity = async () => {
+  const leaf = keccak256(window.ethereum.selectedAddress)
+  const proof = merkleTree.getHexProof(leaf)
+  const isValid = merkleTree.verify(proof, leaf, root)
+  return isValid
+}
+
 export const getMaxSupply = async () => {
   const maxSupply = await nftContract.methods.maxSupply().call()
   return maxSupply
@@ -99,7 +106,7 @@ export const wlMint = async (mintAmount) => {
   )
 
   // Set up our Ethereum transaction
-  const  eligbel_for_freemint = (numberMinted + mintAmount <= 1)
+  const  eligbel_for_freemint = (numberMinted  < 1)
 
 
 
@@ -107,7 +114,7 @@ export const wlMint = async (mintAmount) => {
     to: config.contractAddress,
     from: window.ethereum.selectedAddress,
     value: parseInt(
-      web3.utils.toWei(String(eligbel_for_freemint ? config.firstCost : config.wlcost), 'ether')
+      web3.utils.toWei(String(eligbel_for_freemint ? config.firstCost + config.wlcost * (mintAmount-1)  : config.wlcost * mintAmount), 'ether')
     ).toString(16), // hex
     gas: String(25000 * mintAmount),
     data: nftContract.methods
@@ -125,9 +132,9 @@ export const wlMint = async (mintAmount) => {
     return {
       success: true,
       status: (
-        <a href={`https://etherscan.io/tx/${txHash}`} target="_blank">
+        <a href={`https://goerli.etherscan.io/tx/${txHash}`} target="_blank">
           <p>✅ Check out your transaction on Etherscan:</p>
-          <p>{`https://etherscan.io/tx/${txHash}`}</p>
+          <p>{`https://goerli.etherscan.io/tx/${txHash}`}</p>
         </a>
       )
     }
@@ -191,9 +198,9 @@ export const publicMint = async (mintAmount) => {
     return {
       success: true,
       status: (
-        <a href={`https://etherscan.io/tx/${txHash}`} target="_blank">
+        <a href={`https://goerli.etherscan.io/tx/${txHash}`} target="_blank">
           <p>✅ Check out your transaction on Etherscan:</p>
-          <p>{`https://etherscan.io/tx/${txHash}`}</p>
+          <p>{`https://goerli.etherscan.io/tx/${txHash}`}</p>
         </a>
       )
     }
