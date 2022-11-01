@@ -1,4 +1,5 @@
 import { useState,useEffect } from "react"
+import Head from 'next/head'
 import { initOnboard } from "../ulits/onboard"
 import { config } from '../dapp.config'
 import {
@@ -9,7 +10,8 @@ import {
   isPublicSaleState,
   isWlMintState,
   wlMint,
-  publicMint          } from '../ulits/interact'
+  publicMint,
+  getValidity          } from '../ulits/interact'
 
 
 
@@ -21,6 +23,7 @@ export default function Mint(){
   const [paused, setPaused] = useState(false)
   const [isPublicSale, setIsPublicSale] = useState(false)
   const [isWlMint, setIsWlMint] = useState(false)
+  const [isValid, setIsValid] = useState(false)
 
   const [status, setStatus] = useState(null)
   const [mintAmount, setMintAmount] = useState(1)
@@ -38,9 +41,11 @@ export default function Mint(){
       setIsPublicSale(await isPublicSaleState())
       const isWlMint = await isWlMintState()
       setIsWlMint(isWlMint)
+      const isValid = await getValidity()
+      setIsValid(isValid)
 
       setMaxMintAmount(
-        isWlMint ? config.WlMaxMintAmount : config.maxMintAmount
+        isWlMint && isValid ? config.maxPerTxWL : config.maxMintAmount
       )
       
       
@@ -82,6 +87,7 @@ useEffect(() => {
     if (mintAmount < maxMintAmount) {
       setMintAmount(mintAmount + 1)
     }
+
   }
 
   const decrementMintAmount = () => {
@@ -118,18 +124,27 @@ useEffect(() => {
 
   return ( 
 
- 
+
     <div className="min-h-screen h-full w-full overflow-hidden flex flex-col items-center justify-center bg-brand-background ">
+         <Head>
+        <title>The Rainbow Tribe</title>
+        <meta name="Description" content="The rainbow tribe minting dapp!" />
+        <link rel="icon" href="/Logo.png" />
+      </Head>
         <div className="relative w-full h-full flex flex-col items-center justify-center py-2">
         <img
 	        src="/bg.png"
           className="absolute inset-auto block w-full min-h-screen object-cover"
         />
-                <div className="flex flex-col items-center justify-center h-full w-full px-2 md:px-10">
-          <div className="z-1 md:max-w-3xl w-full bg-black/75 filter  py-4 rounded-md px-2 md:px-10 flex flex-col items-center
+          <div className="flex flex-col items-center justify-center h-full w-full px-2 md:px-10">
+	   <div className="z-1 md:max-w-3xl w-full bg-black/75 filter  py-4 rounded-md px-2 md:px-10 flex flex-col items-center
             bg-gray-800 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border-2 border-gray-100 backdrop-saturate-150">
-            <h1 className="font-Righteous uppercase font-bold text-3xl md:text-4xl text-brand-02 bg-clip-text mt-3">
-            {paused ? 'Paused' : isPublicSale ? 'Public Sale' : 'Whitelisted-Sale'} </h1>
+            <img
+                src="/Logo.png"
+                  className="w-full mt-auto mb-0 sm:h-[58px] md:w-[100px] mx-auto mt-2"
+                />
+	    <h1 className="tracking-wide font-Righteous uppercase font-bold text-3xl md:text-4xl text-brand-02 bg-clip-text mt-4 border-2 border-blue-300 p-3 rounded-md">
+            {!walletAddress? 'Minting is Live!' : paused ? 'Paused' : isWlMint && isValid ? 'WhiteListed-Sale' : 'Public Sale'} </h1>
 
             <h3 className="text-sm text-gray-100 tracking-widest">
             {walletAddress
@@ -157,6 +172,27 @@ useEffect(() => {
 
                 <div className="flex flex-col items-center w-full px-4 mt-16 md:mt-0 ">
                 <div className="font-Righteous flex items-center justify-between w-full">
+                <button
+                    className="w-12 h-8 md:w-14 md:h-10 flex items-center justify-center text-black hover:shadow-lg bg-gray-300 font-bold rounded-md"
+                    onClick={decrementMintAmount} >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 md:h-8 md:w-8"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M18 12H6"
+                      />
+                    </svg>
+                  </button>
+                  <p className="flex items-center justify-center flex-1 grow text-center font-bold text-brand-02 text-3xl md:text-4xl">
+                  {mintAmount}
+                  </p> 
                   <button
                     className="w-12 h-8 md:w-14 md:h-10 flex items-center justify-center text-black hover:shadow-lg bg-gray-300 font-bold rounded-md"
                     onClick={incrementMintAmount} >
@@ -176,30 +212,11 @@ useEffect(() => {
                       />
                     </svg>
                   </button>
-                  <p className="flex items-center justify-center flex-1 grow text-center font-bold text-brand-02 text-3xl md:text-4xl">
-                  {mintAmount}
-                  </p>
-                  <button
-                    className="w-12 h-8 md:w-14 md:h-10 flex items-center justify-center text-black hover:shadow-lg bg-gray-300 font-bold rounded-md"
-                    onClick={decrementMintAmount} >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 md:h-8 md:w-8"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M18 12H6"
-                      />
-                    </svg>
-                  </button> 
+                  
+                 
                 </div>  
                 <p className="text-sm text-gray-100 tracking-widest mt-5">
-                  Max Mint Amount Per Wallet: {paused ? '0' : isWlMint ? config.WlMaxMintAmount : config.maxMintAmount}
+                  Max Mint Amount Per Wallet: {paused ? '0' : isWlMint && isValid ? config.WlMaxMintAmount : config.maxMintAmount}
                 </p>
 
                 <div className="border-t border-b py-4 mt-9 w-full">
@@ -208,7 +225,7 @@ useEffect(() => {
 
                     <div className="flex items-center space-x-3">
                     <p>
-                        {Number.parseFloat(paused ? '0.00' : isWlMint && EligbleForFreeMint ? config.wlcost*(mintAmount-1) : isWlMint && !EligbleForFreeMint ? config.wlcost*mintAmount : config.publicSalePrice*mintAmount).toFixed(
+                        {Number.parseFloat(paused ? '0.00' : isWlMint && isValid && EligbleForFreeMint ? config.wlcost*(mintAmount-1) : isWlMint && isValid && !EligbleForFreeMint ? config.wlcost*mintAmount : config.publicSalePrice*mintAmount).toFixed(
                           4
                         )}{' '}
                         ETH
@@ -227,7 +244,7 @@ useEffect(() => {
                         : 'bg-gradient-to-br from-brand-01 to-brand-02 shadow-lg border border-transparent hover:shadow-black/60'
                     } font-Righteous mt-auto mb-0  w-full px-6 py-3 rounded-md text-2xl text-black  mx-4 tracking-wide uppercase border-violet-50`}
                     disabled={paused || isMinting}
-                    onClick={isWlMint ? wlMintHandler : publicMintHandler}
+                    onClick={isWlMint && isValid ? wlMintHandler : publicMintHandler}
                   >
                     {isMinting ? 'Minting...' : 'Mint'}
                   </button>
