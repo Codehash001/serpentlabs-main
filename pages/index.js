@@ -164,7 +164,7 @@ useEffect(() => {
                 </div>
 
                 <img
-                src="https://raw.githubusercontent.com/Codehash001/rtr-mint/main/public/nft.gif"
+                src="https://github.com/Codehash001/TRT-test-final/blob/main/public/nft.gif"
                   className="object-cover w-full mt-auto mb-0 sm:h-[280px] md:w-[250px] rounded-md border border-gray-100"
                 />
                 </div>
