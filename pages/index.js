@@ -11,7 +11,8 @@ import {
   isWlMintState,
   wlMint,
   publicMint,
-  getValidity          } from '../ulits/interact'
+  getValidity          
+} from '../ulits/interact'
 
 
 
