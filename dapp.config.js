@@ -1,49 +1,30 @@
 const RPC_URL = process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL
+const Alch_key = process.env.NEXT_PUBLIC_ALCH_KEY
 
 const config = {
-  title: 'SerpentLabs dapp',
-  description: 'SerpentLaps minting Dapp',
-  contractAddress: '0x2968CC4E63C6c0628e3CCc6857a81B1Fb3556ee0',
-  maxMintAmount: 4,
-  WlMaxMintAmount: 2,
+  title: 'The Rainbow Tribe',
+  description: 'TRT DAPP',
+  contractAddress: '0x99512aaC7F817D29fF69245EB39A16B7C43e85b7',
+  maxMintAmount: 5,
+  WlMaxMintAmount: 5,
   firstCost :0 ,
-  wlcost: 0.008,
-  publicSalePrice:0.008
+  wlcost: 0.025,
+  publicSalePrice:0.025,
+  maxPerTxWL : 5
 }
 
 const onboardOptions = {
   dappId: process.env.NEXT_PUBLIC_DAPP_ID,
-  networkId: 1, // mainnet
+  networkId: 1, // Mainnet
   darkMode: true,
   walletSelect: {
     description:'Please select a wallet',
     wallets: [
       { walletName: 'metamask', preferred: true },
-      { walletName: 'coinbase', preferred: true },
       {
-        walletName: 'walletLink',
-        preferred: false,
-        rpcUrl: RPC_URL,
-        appName: 'weRjapaneseTest01 Dapp'
-      },
-      
-      
-      { walletName: 'gnosis'},
-      { walletName: 'authereum' },
-
-      {
-        walletName: 'ledger',
-        rpcUrl: RPC_URL
-      },
-      {
-        walletName: 'lattice',
-        rpcUrl: RPC_URL,
-        appName: 'weRjapaneseTest01 Dapp'
-      },
-      {
-        walletName: 'keepkey',
-        rpcUrl: RPC_URL
-      }
+    walletName: "walletConnect",
+    infuraKey: Alch_key
+  }
     ]
   },
   walletCheck: [
