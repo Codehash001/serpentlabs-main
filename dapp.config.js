@@ -1,5 +1,4 @@
 const RPC_URL = process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL
-const Alch_key = process.env.NEXT_PUBLIC_ALCH_KEY
 
 const config = {
   title: 'The Rainbow Tribe',
