@@ -130,18 +130,18 @@ useEffect(() => {
          <Head>
         <title>The Rainbow Tribe</title>
         <meta name="Description" content="The rainbow tribe minting dapp!" />
-        <link rel="icon" href="https://raw.githubusercontent.com/Codehash001/TRT-test-final/main/public/Logo.png" />
+        <link rel="icon" href="https://s1.gifyu.com/images/favicon3af9fec900f174e4.png" />
       </Head>
         <div className="relative w-full h-full flex flex-col items-center justify-center py-2">
         <img
-	        src="/bg.png"
+	        src="https://s4.gifyu.com/images/bg.png"
           className="absolute inset-auto block w-full min-h-screen object-cover"
         />
           <div className="flex flex-col items-center justify-center h-full w-full px-2 md:px-10">
 	   <div className="z-1 md:max-w-3xl w-full bg-black/75 filter  py-4 rounded-md px-2 md:px-10 flex flex-col items-center
             bg-gray-800 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border-2 border-gray-100 backdrop-saturate-150">
             <img
-                src="https://raw.githubusercontent.com/Codehash001/TRT-test-final/main/public/Logo.png"
+                src="https://s1.gifyu.com/images/Logod4f1d67ea0ad37fc.png"
                   className="w-full mt-auto mb-0 sm:h-[58px] md:w-[100px] mx-auto mt-2"
                 />
 	    <h1 className="tracking-wide font-Righteous uppercase font-bold text-3xl md:text-4xl text-brand-02 bg-clip-text mt-4 border-2 border-blue-300 p-3 rounded-md">
