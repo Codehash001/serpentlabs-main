@@ -20,11 +20,8 @@ const onboardOptions = {
   walletSelect: {
     description:'Please select a wallet',
     wallets: [
-      { walletName: 'metamask', preferred: true },
-      {
-    walletName: "walletConnect",
-    infuraKey: Alch_key
-  }
+      { walletName: 'metamask', preferred: true }
+     
     ]
   },
   walletCheck: [
