@@ -7,8 +7,8 @@ const config = {
   maxMintAmount: 5,
   WlMaxMintAmount: 5,
   firstCost :0 ,
-  wlcost: 0.025,
-  publicSalePrice:0.025,
+  wlcost: 0.01,
+  publicSalePrice:0.01,
   maxPerTxWL : 5
 }
 
